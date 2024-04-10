@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification-config
+data:
+  global.yml: |
+    resolve_timeout: 2m
+
+  route.yml: |
+    receiver: 'email-notifications'
+
+  receivers.yml: |
+    - name: 'email-notifications'
+      email_configs:
+        - to: 'your-email@example.com'
+          from: 'prometheus@example.com'
+          smarthost: 'smtp.example.com:587'
+          auth_username: 'your-username'
+          auth_password: 'your-password'
+          send_resolved: 'true'
+
+    - name: 'slack-notifications'
+      slack_configs:
+        - api_url: "https://hooks.slack.com/services/YOUR-SLACK-API-URL"
+          channel: '#general'
+          send_resolved: 'true'
